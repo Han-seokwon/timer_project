@@ -1,0 +1,350 @@
+/* Reset CSS */
+body, h1, h2, h3, h4, h5 ul, p {
+  margin: 0;
+  padding: 0;
+}
+li {
+  list-style-type: none;
+}
+
+button{
+  font-family : inherit;
+  color : inherit;
+  background-color: inherit;
+  border: inherit;
+  font-size: inherit;
+}
+
+
+/* Clearfix */
+.clearfix:before,
+.clearfix:after {
+    content: ' ';
+    display: table;
+}
+
+/*LAYOUT*/
+
+body{
+  background-image: url(/images/background_img.png);
+  background-size : cover;
+	background-position : center;
+  color : white;
+  font-family: 'Permanent Marker', cursive;  
+  text-align: center;
+  width: 100vw;
+  overflow-x : hidden;  
+}
+
+.l_sidebar{
+  font-family: 'Tilt Warp', cursive;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 100vh;
+}
+
+.l_container{
+  position : relative;
+  margin-left: 100px;
+  transition :margin 0.3s;
+}
+
+.l_container.move-left{
+  margin-left: 500px;
+}
+
+.l_header{
+  margin-top: 50px;
+}
+
+.l_contents{
+  height : 80%;
+  position : relative;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* HEADER */
+
+#logo h1{
+  font-size: 50px;
+}
+
+/* SIDEBAR */
+
+.sidebar-section{
+  height: 100%;
+  background-color: rgb(157, 189, 216);
+  position: relative;
+}
+
+.sidebar-buttons{
+  height: 100%;
+  width: 100px;
+  position : absolute;
+}
+
+.button{
+  height: 100px;
+  vertical-align : middle;
+  position: relative;
+  transition: background-color 0.3s;
+}
+.button:hover{
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.button.toggle.active{
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.sidebar-buttons i{
+  font-size: 30px;
+  position : absolute;
+  top:40%;
+  left:50%;
+  transform : translate(-50%, -50%);
+}
+.sidebar-buttons p{
+  position:absolute;
+  top: 70%;
+  left:50%;
+  transform : translate(-50%, -50%);  
+}
+
+#login-button a{
+  display:block; 
+  height:100%;
+  width:100%;
+  position:absolute;
+  top:0;
+  left:0
+}
+
+.sidebar-wrapper{
+  position:absolute;
+  left : 100px;
+  top : 0;
+  background-color: rgb(78, 94, 108);
+  height: 100%;
+  width: 0;
+  transition: width 0.3s;
+}
+
+.sidebar-wrapper.display{
+  width: 400px;
+}
+
+
+/* SIDEBAR - CHART */
+.statistic-header > h4{
+  margin: 10px 0;
+  font-size: 35px;
+  letter-spacing: 3px;
+}
+
+.statistic-buttons{
+  margin: 30px 0;
+}
+.statistic-buttons > button{
+  border: 2px solid white;
+  border-radius: 30% / 75%;
+  padding: 2px 15px;
+  margin: 0 5px;
+  transition: all 0.3s;
+}
+.statistic-buttons > button:hover{
+  border-color:  #62a7c8;
+  color : #62a7c8;
+}
+
+#chart-title{
+  padding: 10px 0;
+  font-size: 22px;
+}
+#study-chart{
+  background-color: rgba(255,255,255);
+  margin: 0 auto;
+}
+#chart-totalStudy{
+  padding-top: 15px;
+  font-size: 20px;
+}
+
+
+
+
+/* MAIN - CONTENT */
+
+.content-wrapper{
+  width: 100%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.content-section{
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0.15);
+  width: 350px;
+  height: 250px;
+  margin: 10px 20px;
+  position : relative;
+  vertical-align: top;
+}
+
+/* TIMER */
+
+.timer{
+  position : absolute;
+  top : 50%;
+  left : 50%;
+  transform: translate(-50%,-50%);
+}
+
+#time{
+  font-size: 70px;
+}
+
+.timer-button{
+  position : absolute;
+  top: 75%;
+  display: grid;
+  grid-template-columns:  5fr 2fr ;
+  width: 100%;
+}
+
+.timer-button button{
+  background-color: transparent;
+  border: 3px solid;
+  border-radius: 10% / 40%;
+  margin : 10px 10px;
+  padding: 2px 20px;
+  font-size: 20px;
+  color : white
+}
+
+#start-stop-button{
+  letter-spacing: 7px;
+  border-radius: 10% / 40%;
+}
+
+#start-stop-button:hover{
+  color : #62a7c8;
+}
+
+#reset-button{
+  letter-spacing: 3px;
+  border-radius: 18% / 40%;
+}
+
+#reset-button:hover{
+  color : #4d6378;
+}
+
+
+/* RECORD */
+
+.record-title{
+  margin: 5px 0;
+  font-size : 30px;
+} 
+
+.record-table-header {  
+  margin-bottom: 5px;
+}
+
+.record-table-header p{
+  border-bottom: 3px solid rgba(255,255,255, 0.7);
+  margin : 0;
+  font-size: 23px;
+  display: inline-block;
+  width: 95px;
+}
+
+.record-table-content{
+  width: 320px;
+  margin: 0 auto;
+  overflow-y: auto;
+  height: 140px;
+}
+
+/*scrollbar */
+.record-table-content::-webkit-scrollbar{
+  width : 5px;
+}
+.record-table-content::-webkit-scrollbar-thumb{
+  background-color: #bbd1e8;
+  border-radius: 15%;
+}
+
+.record-table-content::-webkit-scrollbar-track{
+  background-color: transparent;
+}
+
+#record-table{
+  margin : 0 auto;
+  font-size: 18px;
+}
+
+#record-table tr{
+  position : relative;
+}
+
+
+#record-table td:nth-child(-n+3){ /* 삭제버튼을 제외하고 started, stopped, studied 열에만 적용 */
+  text-align: center;
+  width: 95px;
+  height: 30px;
+}
+
+
+/* 삭제 버튼 */
+.table-data-delete{
+  display: inline-block;
+  width: 20px;
+  position: absolute;
+  left : 95%;
+}
+
+.table-data-delete button{
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  height: 100%;
+  transition: color 0.7s;
+}
+
+.transparent{
+  color : transparent;
+}
+
+.table-data-delete button:hover{
+  color : #62a7c8;
+}
+
+
+/* footer */
+
+#footer p{
+  color : #62a7c8;
+}
+
+.snowflake{
+  border-radius: 50%;
+  background-color: white;
+  position : absolute;
+  top : -10px;
+  left : 0px;  
+}
+
+@keyframes fall {
+  from { }
+  to{
+    transform: translateY(90vh);
+    opacity: 0;
+  }
+}

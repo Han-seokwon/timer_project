@@ -1,0 +1,19 @@
+<div class="account-section">
+  <div class="nickname-section">
+    <span class="nickname-label" class="label"> nickanme : </span>
+    <span id="nickname"></span>
+    <button id="nickname-edit-btn">edit</button>
+  </div>
+
+  <div class="created-date-section">
+    <span id="created-date-label" class="label">Created Date : </span>
+    <span id="created-date"></span>
+  </div>
+
+  <div class="delete-account-section">    
+    <form action="/user/delete_process" method="POST">
+      <input id="delete-account-input" type="hidden" name="userId">
+      <input id="delete-account-button"type="submit" value="delete account">
+    </form>
+  </div>
+</div>
