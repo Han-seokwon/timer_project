@@ -77,9 +77,9 @@ const accountSection =  {
   displayAcoountSection : async function(userId){
     this.userId = userId;
     const template =  await this.getAccountTemplate();
-    const contentWrapper = document.querySelector(".sidebar-wrapper");    
+    const contentWrapper = document.querySelector(".sidebar-main");    
     contentWrapper.innerHTML = template;
-    this.setAccountData();
+    await this.setAccountData();
   },
 }
 

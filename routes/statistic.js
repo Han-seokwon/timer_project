@@ -118,19 +118,28 @@ function getMonthStartEndInYear(){
   }
   return monthsInYear;
 };
+function getYestStartEndDate(){
+  const year = (new Date()).getFullYear();
+  const yearStart = new Date(year, 0, 1)
+  yearStart.setHours(0,0,0,0);
+  const yearEnd = new Date(year +1 , 0, 0);
+  yearEnd.setHours(23,59,59,999)
+  return {yearStart, yearEnd}
+ }
+
 
 // /statistic/year/1
 router.get('/year/:userId', async (req, res) => {
-  let monthsInYear = getMonthStartEndInYear();
-  const yearStart = getDateTime_SQL(monthsInYear[0].start);
-  const yearEnd = getDateTime_SQL(monthsInYear[monthsInYear.length - 1 ].end);
-
+  let {yearStart, yearEnd} = getYestStartEndDate();
+  yearStart = getDateTime_SQL(yearStart);
+  yearEnd = getDateTime_SQL(yearEnd);
   const connect = await db();
   const [result, fields] = await connect.query(`
   SELECT start_date, studiedTime_10ms FROM study 
   WHERE user_id=? AND start_date BETWEEN ? AND ?`
       , [req.params.userId, yearStart, yearEnd]);
-  const yearCharData = chartData.makeYearChartData(result, monthsInYear); 
+  const yearCharData = chartData.makeYearChartData(result); 
+  console.log(yearCharData)
   return res.json(yearCharData);
 }
 );
