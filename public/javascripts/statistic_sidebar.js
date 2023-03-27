@@ -70,8 +70,8 @@ const statisticSection = {
     const contentWrapper = document.querySelector(".sidebar-main");    
     contentWrapper.innerHTML = statisticTemplate;
     this.addHandlerToTermButtons(userId);
-
-    const chartData = await this.getStudyChartData("month", userId)
+    // 통계창 열면 가장 먼저 today 기록을 출력
+    const chartData = await this.getStudyChartData("today", userId)
     this.makeChart(chartData);
   }
 }
