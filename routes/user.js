@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require("../lib/db.js");
 
 router.post('/delete_process', async (req, res) => {
-  console.log(req.body.userId)
+  console.log("delete_process" , req.body.userId)
   // 사용자 제거
   // const connect = await db();
   // await connect.query(`DELETE FROM user WHERE id=?`, [req.body.userId]);  

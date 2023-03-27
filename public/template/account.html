@@ -1,20 +1,32 @@
-<div class="sidebar-content">
-  <h4 class="sidebar-title" >account</h4> 
-  <div class="nickname-section">
-    <span class="nickname-label" class="label"> nickanme : </span>
+<div id="account-wrapper" class="sidebar-content">
+  <h4>account</h4> 
+  <div id="nickname-section" class="account-section">
+    <span id="nickname-label" class="label"> Nickanme : </span>
     <span id="nickname"></span>
     <button id="nickname-edit-btn">edit</button>
   </div>
 
-  <div class="created-date-section">
+  <div id="created-date-section" class="account-section">
     <span id="created-date-label" class="label">Created Date : </span>
     <span id="created-date"></span>
   </div>
 
-  <div class="delete-account-section">    
-    <form action="/user/delete_process" method="POST">
-      <input id="delete-account-input" type="hidden" name="userId">
-      <input id="delete-account-button"type="submit" value="delete account">
-    </form>
+  <div id="delete-account-section" class="account-section"> 
+    <button id="delete-account-btn">Delete Account</button> 
+
+    <dialog id="delete-account-check">
+      <p>
+        Deleting your account will permanently remove your study records.<br>
+        Are you sure you want to delete your account?
+      </p>
+      <form id="delete-account-form"action="/user/delete_process" method="POST">
+        <input id="delete-account-input" type="hidden" name="userId">
+      </form>
+
+      <form method="dialog">
+        <button value="close">Go Back</button>
+        <button id="delete-account-confirm" value="confirm">OK</button>
+      </form>
+    </dialog>
   </div>
 </div>

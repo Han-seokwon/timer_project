@@ -50,9 +50,14 @@ const statisticSection = {
     });
   },
 
+
+
   addHandlerToTermButtons : function(userId){
     $(".statistic-buttons > button").click(async(event)=>{
-      const clikedButton =  event.currentTarget; 
+      const clikedButton =  event.currentTarget;
+      $(".statistic-buttons > button.clicked").removeClass("clicked"); // 전에 클릭된 요소가 있으면 클릭 효과 클래스 삭제
+      clikedButton.classList.add("clicked"); // 버튼 클릭 효과 클래스 추가     
+      
       const btnId = clikedButton.getAttribute("id"); // 버튼의 id 값으로 today, week 등의 기간 정보를 가져와서 그에 맞는 차트 데이터 생성
       const chartData = await this.getStudyChartData(btnId, userId)
       this.makeChart(chartData);
