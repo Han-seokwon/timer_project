@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require("../lib/db.js");
+const sanitizeHtml = require("sanitize-html");
 
 router.post('/delete_process', async (req, res) => {
   console.log("delete_process" , req.body.userId)
@@ -20,11 +21,35 @@ router.get('/id', (req, res) => {
   }
 }
 );
+function isValidNickname(nicknameInput){
+  const nickname_trim = nicknameInput.replace(/\s/g, ''); // 정규식 비교를 위해 모든 공백 제거
+  const regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;  // 특수 기호 모음
+  // 특수 기호가 포함되어 있는지 확인
+  if(regExp.test(nickname_trim)){
+    return {isValidName : false, errorMsg : "Cannot contain special characters!"};    
+  }
+  // 빈 값인지 확인
+  else if(nickname_trim.length === 0){
+    return {isValidName : false, errorMsg : "You have not entered anything!"};   
+  }
+  else{
+    return {isValidName : true, errorMsg : ""};
+  }
+}
 
-router.post('/nickname', async (req, res) => {  
+
+router.post('/nickname', async (req, res) => {    
+  // 문자열 앞 뒤 공백 제거, 문자열 중에 있는 공백은 띄어쓰기 1개로 변환
+  let nickname = (req.body.newNickname).replace(/\s+/g, ' ').trim(); 
+  // 특수 기호가 포함되어 있는지 확인
+  const {isValidName, errorMsg} = isValidNickname(nickname);
+  if(!isValidName){
+    return res.json({isValidName, errorMsg});
+  }
+  const nickname_filtered = sanitizeHtml(nickname);
   const connect = await db();
-  console.log([req.body.newNickname, req.body.userId])
-  await connect.query(`UPDATE user SET nickname=? WHERE id=?`, [req.body.newNickname, req.body.userId]);
+  await connect.query(`UPDATE user SET nickname=? WHERE id=?`, [nickname_filtered, req.body.userId]);
+  return res.json({isValidName, errorMsg})
 }
 );
 

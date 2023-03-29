@@ -161,7 +161,7 @@ body{
 }
 .account-section{
   float : left;
-  margin-top : 20px;
+  margin-top : 50px;
   margin-left : 20px;
   display: flex;
   align-items: center;
@@ -169,6 +169,10 @@ body{
 
 .label{
   padding-right: 10px;
+}
+
+#nickname-section{
+  position: relative;
 }
 
 #nickname{
@@ -182,10 +186,16 @@ body{
   padding-left: 10px;
   background-color: rgba(255,255,255);
   border : 3px solid #62a7c8;
+  transition: border-color 0.2s;
+}
+
+#nickname.nickname-input.error{
+  border-color: #ed775a;
 }
 
 #nickname-edit-btn{
-  border: 2px solid white;
+  border: 3px solid white;
+  padding: 0 10px;
   margin-left: 20px;
   border-radius: 30% / 60%;
   transition: all 0.4s;
@@ -195,6 +205,18 @@ body{
   color : #62a7c8;
   border-color: #62a7c8;
 }
+
+#input-error-msg{
+  position: absolute;
+  left: 20%;
+  top: 120%;
+  font-size: 15px;
+  color : ed775a;
+}
+
+
+
+
 
 #delete-account-btn{
   display: block;
