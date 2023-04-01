@@ -17,8 +17,6 @@ const timer = {
     this.timerInterval = setInterval(() => {
       this.time_10ms++;
 
-      this.time_10ms += 1000; // 테스트용 추후 삭제
-
       // 1초마다 타이머 시간 업데이트
       if (this.time_10ms % 100 == 0) {
         this.updateTimer(); 
@@ -54,20 +52,18 @@ const timer = {
   init: function () {
     const self = this; // this는 내부함수에서 사용할 수 없으므로 self로 저장함
     $("#start-stop-button").click(async ()=> {
-      if (!self.isTimerRunning) {// START
-        console.log("timer start");
+      if (!self.isTimerRunning) {// START 클릭
         self.startTimer();
         $("#start-stop-button").text("stop"); // stop으로 문자 바꿈
       }
-      else {// STOP
-        console.log("timer stop!");
+      else {// STOP 클릭
         self.stopTimer();
         const record = {
           start_date : this.startDate,
           stop_date : this.stopDate,
           studiedTime_10ms : this.time_10ms - this.startTime_10ms // 공부한 시간(현재 시각 - 시작 시각)
         }
-        recordTable.addRecord(record); 
+        recordTable.addRecord(record); // 기록 테이블에 추가(+ 서버로 fetch)
         $("#start-stop-button").text("start"); // start로 문자 바꿈
       }
     });

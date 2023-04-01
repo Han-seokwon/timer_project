@@ -6,10 +6,10 @@ const db = require("../lib/db.js");
 
 // "/studyRecord/insert"
 router.post('/insert', async (req, res) => {
-  const studyRecord = req.body;
+  const studyRecord = req.body.record;
   if (req.user) { // 로그인된 사용자인 경우
     const connect = await db();
-    const params = [req.user.id, studyRecord.start_date, studyRecord.stop_date, studyRecord.studiedTime_10ms] // 유저id, 공부 시작시간, 공부 종료시간
+    const params = [req.body.userId, studyRecord.start_date, studyRecord.stop_date, studyRecord.studiedTime_10ms] // 유저id, 공부 시작시간, 공부 종료시간
     const [result, fields] = await connect.query(`INSERT INTO study (user_id, start_date, stop_date, studiedTime_10ms ) VALUES( ?, ?, ?, ?)`
       , params); // study DB에 추가
     console.log("inserted!!")

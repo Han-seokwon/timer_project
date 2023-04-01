@@ -1,6 +1,11 @@
 import { timer } from "./timer.js"
 
 const recordTable = {
+  userId : undefined,
+
+  setUserId : function(userId){
+    this.userId = userId;
+  },
 
   makeDateToSQLFormat : function(date){
     const year = String(date.getFullYear());
@@ -27,16 +32,18 @@ const recordTable = {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(recordJSON)
+      body: JSON.stringify({userId : this.userId, record : recordJSON})
     })
     return response.then(res => res.json())
     .then(json => json.dbRowId);
   },  
 
-
   addRecord : async function(record){
     const recordJSON = this.makeRecordJSON(record);
-    const dbRowId = await this.fetchRecord(recordJSON); // 서버로 공부 기록 데이터 전송
+    let dbRowId = 0; // 공부기록이 추가된 db의 행 번호
+    if(this.userId){ // 로그인된 사용자
+      dbRowId = await this.fetchRecord(recordJSON); // 서버로 공부 기록 데이터 전송
+    }    
     recordTable.makeNewTableRow(record, dbRowId); // 테이블 UI에 공부기록 추가
   },
 
@@ -111,7 +118,9 @@ const recordTable = {
     // delete 버튼 클릭시 해당 행 삭제 이벤트 적용
     deleteButton.addEventListener("click", async () => {
       console.log("deleteButton clicked!");
-      await this.deleteRecordFromDB(dbRowId); // db에서 해당 기록 삭제
+      if(dbRowId){ // db에 추가된 경우( 추가되지 않은 경우는 0 ; 로그인이 안 된 사용자 )
+        await this.deleteRecordFromDB(dbRowId); // db에서 해당 기록 삭제
+      }      
       tr.remove(); // 행 삭제   
       timer.subtractTime(studiedTime_10ms); // 삭제된 기록만큼 타이머에서 시간 빼기      
     })
@@ -122,7 +131,6 @@ const recordTable = {
     const res = fetch(`/studyRecord/today/${user_id}`)
     return res.then(res => res.json());
   },
-
 
   makeDateToSQLFormat_YearMonthDay : function(date){
     const year = String(date.getFullYear());
@@ -149,7 +157,6 @@ const recordTable = {
   resetTodayRecord: async function(){
     const deleteButtonList = document.getElementsByClassName("delete-button");
     const len = deleteButtonList.length;
-    console.log(deleteButtonList)
     for( let i = len - 1; i >= 0; i-- ){ // 뒤의 열부터 삭제
       deleteButtonList.item(i).click(); // 삭제 버튼 클릭
     }

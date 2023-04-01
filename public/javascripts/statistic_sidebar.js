@@ -65,14 +65,22 @@ const statisticSection = {
   },
 
   displayStatisticSection : async function(userId){
-    this.userId = userId;
-    const statisticTemplate =  await this.getStatisticTemplate();
-    const contentWrapper = document.querySelector(".sidebar-main");    
-    contentWrapper.innerHTML = statisticTemplate;
-    this.addHandlerToTermButtons(userId);
-    // 통계창 열면 가장 먼저 today 기록을 출력
-    const chartData = await this.getStudyChartData("today", userId)
-    this.makeChart(chartData);
+    const contentWrapper = document.querySelector(".sidebar-main");  
+    if(userId){ // 로그인 되어 있는 경우
+      this.userId = userId;
+      const statisticTemplate =  await this.getStatisticTemplate();  
+      contentWrapper.innerHTML = statisticTemplate;
+      this.addHandlerToTermButtons(userId);
+      // 통계창 열면 가장 먼저 today 기록을 출력
+      const chartData = await this.getStudyChartData("today", userId)
+      this.makeChart(chartData);
+    } else{ // 로그인이 안 되어 있는 경우
+      // 로그인이 필요하다는 메시지 보여주기
+      const loginRequireMsg = document.createElement("p");
+      loginRequireMsg.innerText = "Login Required!";
+      loginRequireMsg.setAttribute("id", "login-required-msg");
+      contentWrapper.appendChild(loginRequireMsg);
+    }
   }
 }
 

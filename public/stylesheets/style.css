@@ -214,10 +214,6 @@ body{
   color : ed775a;
 }
 
-
-
-
-
 #delete-account-btn{
   display: block;
   color : #ccccce;
@@ -246,7 +242,7 @@ body{
   color: black;
 }
 
-/* SIDEBAR - CHART */
+/* SIDEBAR - STATISTIC */
 
 .statistic-buttons{
   margin: 30px 0;
@@ -280,8 +276,12 @@ body{
   font-size: 20px;
 }
 
-
-
+#login-required-msg{
+  font-size : 30px;
+  height: 100%;
+  text-align: center;
+  line-height: 70vh;
+}
 
 /* MAIN - CONTENT */
 
