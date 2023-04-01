@@ -11,7 +11,6 @@ const timer = {
   startTimer: function () {
     this.isTimerRunning = true;
     this.startDate = new Date();
-    this.stopDate = new Date();
     this.startTime_10ms = this.time_10ms;
 
     this.timerInterval = setInterval(() => {
@@ -49,21 +48,42 @@ const timer = {
     this.updateTimer();
   },
 
-  init: function () {
+  makeRecord : function(){
+    return {
+      start_date : this.startDate,
+      stop_date : this.stopDate,
+      studiedTime_10ms : this.time_10ms - this.startTime_10ms // 공부한 시간(현재 시각 - 시작 시각)
+    }
+  },
+
+  resetDate : async function(userId){ // 하루가 바뀔때 실행할 함수
+    if(this.isTimerRunning){ // 타이머가 실행중인 경우 => 현재까지 기록을 저장하고 새롭게 타이머 시작
+      this.stopTimer();
+      if(userId){ // 로그인한 경우 
+        await recordTable.fetchRecord(userId , this.makeRecord()); // 서버로 기록 fetch
+      }
+      this.time_10ms = 0; // 타이머 0부터 다시 시작
+      this.startTimer();
+    } else{ // 타이머가 정지 상태인 경우
+      this.time_10ms = 0; 
+    }
+    this.updateTimer();
+  },
+
+  init: function (userId) {
     const self = this; // this는 내부함수에서 사용할 수 없으므로 self로 저장함
     $("#start-stop-button").click(async ()=> {
       if (!self.isTimerRunning) {// START 클릭
         self.startTimer();
         $("#start-stop-button").text("stop"); // stop으로 문자 바꿈
-      }
-      else {// STOP 클릭
-        self.stopTimer();
-        const record = {
-          start_date : this.startDate,
-          stop_date : this.stopDate,
-          studiedTime_10ms : this.time_10ms - this.startTime_10ms // 공부한 시간(현재 시각 - 시작 시각)
+      } else { // STOP 클릭
+        self.stopTimer();        
+        const record = this.makeRecord(); // 공부기혹
+        let dbRowId = 0; // 공부기록이 추가된 db의 행 번호
+        if(userId){ // 로그인된 사용자인 경우 
+          dbRowId = await recordTable.fetchRecord(userId , record); // 서버로 공부 기록 데이터 전송
         }
-        recordTable.addRecord(record); // 기록 테이블에 추가(+ 서버로 fetch)
+        recordTable.makeNewTableRow(record, dbRowId); // 새로운 기록 테이블에 추가
         $("#start-stop-button").text("start"); // start로 문자 바꿈
       }
     });

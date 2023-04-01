@@ -1,51 +1,28 @@
 import { timer } from "./timer.js"
 
 const recordTable = {
-  userId : undefined,
 
-  setUserId : function(userId){
-    this.userId = userId;
-  },
-
-  makeDateToSQLFormat : function(date){
-    const year = String(date.getFullYear());
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const hour = String(date.getHours()).padStart(2, '0');
-    const min = String(date.getMinutes()).padStart(2, '0');
-    const sec = String(date.getSeconds()).padStart(2, '0');
-    return `${year}-${month}-${day} ${hour}:${min}:${sec}`
-  },
-
-  makeRecordJSON : function(record){
-    return {
-      start_date : this.makeDateToSQLFormat(record.start_date),
-      stop_date : this.makeDateToSQLFormat(record.stop_date),
-      studiedTime_10ms : record.studiedTime_10ms 
+  resetDate : async function(){ // 하루가 바뀔때 실행할 함수
+    // 전날 공부기록들 기록테이블에서 삭제
+    const rowList = document.getElementsByClassName("table-row");
+    for(let i=rowList.length -1 ; i >= 0 ; i--){ // 뒤에서 부터 삭제 
+      console.log(rowList[i], i)     
+      rowList[i].remove();
     }
   },
 
   // 서버로 학습 기록 json 전송
-  fetchRecord : async function (recordJSON) {
+  fetchRecord : async function (userId, record) {
     const response = fetch("/studyRecord/insert", {
       method: "post",
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({userId : this.userId, record : recordJSON})
+      body: JSON.stringify({userId : userId, record : record})
     })
     return response.then(res => res.json())
     .then(json => json.dbRowId);
   },  
-
-  addRecord : async function(record){
-    const recordJSON = this.makeRecordJSON(record);
-    let dbRowId = 0; // 공부기록이 추가된 db의 행 번호
-    if(this.userId){ // 로그인된 사용자
-      dbRowId = await this.fetchRecord(recordJSON); // 서버로 공부 기록 데이터 전송
-    }    
-    recordTable.makeNewTableRow(record, dbRowId); // 테이블 UI에 공부기록 추가
-  },
 
   makeDateToHourMinFormat : function(date){
     if(typeof(date) === "string"){ // db에 저장된 날짜값을 그대로 가져온 경우 문자열이므로 Date 타입으로 변환
@@ -141,7 +118,6 @@ const recordTable = {
 
   // 사용자의 저장된 오늘 공부기록들을 불러옴
   addTodayStudyRecordFromDB : async function(user_id){
-    console.log("initRecord!");
     // user_id에 일치하는 사용자의 오늘 일자에 해당하는 공부기록 가져오기
     const records = await this.getAllTodayRecordFromDB(user_id); // 오늘 공부 기록들을 가져오기
 
