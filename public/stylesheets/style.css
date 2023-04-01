@@ -436,15 +436,15 @@ body{
 
 /* footer */
 
-#footer p{
+.l_footer p{
   color : #62a7c8;
 }
 
 .snowflake{
   border-radius: 50%;
   background-color: white;
-  position : absolute;
-  top : -10px;
+  position : absolute;  
+  top : -20px; /* 화면에서 안 보이도록 설정*/
   left : 0px;  
 }
 

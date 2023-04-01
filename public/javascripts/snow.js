@@ -5,7 +5,7 @@ function makeSnowflake(){
     const minSize = 5;
     const snowSize =  (Math.random() * 5 )+ minSize; // 5 ~ 10 px 눈 사이즈
     const positionLeft = Math.random() * window.screen.width - snowSize; // 사이즈 만큼 빼주어서 가로 화면 밖으로 나가지 않도록 함
-    const delayTime = Math.random() * 5;
+    const delayTime = Math.random() * 5; // 애니메이션 딜레이 시간 0 ~ 5
     const minDurationTime = 5; // 애니메이션 최소 지속시간
     const durationTime = (Math.random() * 15) + minDurationTime; // 5 ~ 20s 애니메이션 지속시간
     const snowOpacity = Math.random();
@@ -17,8 +17,7 @@ function makeSnowflake(){
 
     sonwflake.style.left = `${positionLeft}px`; // div 태그의 style의 left 속성 정의
 
-    sonwflake.style.animationDelay = `${delayTime}s`; // 15초에 걸쳐 눈이 떨어지므로 딜레이도 0 ~ 15 무작위로 넣어줌
-    sonwflake.style.animation = `fall ${durationTime}s linear`;
+    sonwflake.style.animation = `fall ${durationTime}s ${delayTime}s linear`;
 
     sonwflake.style.opacity = `${snowOpacity}`;     
     snowflake_section.appendChild(sonwflake);
